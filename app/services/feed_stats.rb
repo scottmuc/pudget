@@ -1,7 +1,8 @@
 require 'simple-rss'
 require 'open-uri'
+require 'date'
 
-class Feed
+class FeedStats
   def self.add_tag(tag)
     return if SimpleRSS.item_tags.include? tag
     SimpleRSS.item_tags << tag
@@ -11,6 +12,13 @@ class Feed
     self.add_tag :'itunes:duration'
     rss = SimpleRSS.parse open(feed_url)
     rss.items.inject(0) { |sum, item| sum + convert_to_seconds(item.itunes_duration) }
+  end
+
+  def self.release_cadance(feed_url)
+    items = SimpleRSS.parse(open(feed_url)).items
+    initial_date = items.last.pubDate
+    days_since_first_episode = DateTime.now - DateTime.parse(initial_date.to_s)
+    days_since_first_episode.to_i / items.count
   end
 
   def self.convert_to_seconds(duration_string)
