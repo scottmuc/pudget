@@ -1,6 +1,7 @@
 require 'simple-rss'
 require 'open-uri'
 require 'date'
+require_relative 'duration'
 
 class FeedStats
   def self.for(feed_url)
@@ -31,20 +32,14 @@ class FeedStats
   end
 
   def self.add_time(items)
-    seconds = items.inject(0) do |sum, item|
-      sum + convert_to_seconds(item.itunes_duration)
+    items.inject(0) do |sum, item|
+      sum + Duration.parse(item.itunes_duration).minutes
     end
-    (seconds / 60).to_i
   end
 
   def self.release_cadence(items)
     initial_date = DateTime.parse(items.last.pubDate.to_s)
     (DateTime.now - initial_date) / items.count
-  end
-
-  def self.convert_to_seconds(duration_string)
-    midnight = Time.parse('00:00:00')
-    Time.parse(duration_string) - midnight
   end
 end
 
