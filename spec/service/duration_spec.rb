@@ -1,4 +1,4 @@
-require_relative '../../app/services/duration'
+require_relative '../../lib/services/duration'
 
 describe Duration do
   it "parses 1:02:30 as 62 minutes" do

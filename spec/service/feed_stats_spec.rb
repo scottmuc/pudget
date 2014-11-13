@@ -1,6 +1,6 @@
 require 'vcr'
 require 'vcr_helper'
-require_relative '../../app/services/feed_stats'
+require_relative '../../lib/services/feed_stats'
 
 describe FeedStats do
   context "stats for Startup podcast" do

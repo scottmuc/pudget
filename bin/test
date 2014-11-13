@@ -2,4 +2,4 @@
 
 set -e
 
-rspec --format documentation
+rspec --color --format documentation

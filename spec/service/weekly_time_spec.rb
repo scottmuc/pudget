@@ -1,4 +1,4 @@
-require_relative '../../app/services/weekly_time'
+require_relative '../../lib/services/weekly_time'
 
 describe WeeklyTime do
   it "reports around 60 minutes for the average podcast" do
