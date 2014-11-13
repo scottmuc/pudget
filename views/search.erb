@@ -1,9 +1,7 @@
-<h1>Pudget</h1>
-<h3>The Podcasting Time Budgeting Utility</h3>
-
-<p>
-Results for: <%= @dto[:feed_url] %>
-</p>
+<form method="get" action="timing">
+  <input id="url" name="url" type="text" value="<%= @dto[:feed_url] %>" />
+  <input type="submit" value="Calculate Weekly Pudget" />
+</form>
 
 <p class="result">
   <%= @dto[:time] %>
