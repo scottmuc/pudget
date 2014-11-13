@@ -1,3 +1,5 @@
+require_relative 'feed_stats'
+
 class WeeklyTime
   def self.for(feed_url)
     stats = FeedStats.for feed_url
