@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'sinatra'
 require_relative 'lib/services/weekly_time'
 
