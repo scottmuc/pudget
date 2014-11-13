@@ -2,12 +2,16 @@ GEM
   remote: https://rubygems.org/
   specs:
     addressable (2.3.6)
+    backports (3.6.4)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
     diff-lcs (1.2.5)
+    multi_json (1.10.1)
     rack (1.5.2)
     rack-protection (1.5.3)
       rack
+    rack-test (0.6.2)
+      rack (>= 1.0)
     rspec (3.1.0)
       rspec-core (~> 3.1.0)
       rspec-expectations (~> 3.1.0)
@@ -26,6 +30,13 @@ GEM
       rack (~> 1.4)
       rack-protection (~> 1.4)
       tilt (~> 1.3, >= 1.3.4)
+    sinatra-contrib (1.4.2)
+      backports (>= 2.0)
+      multi_json
+      rack-protection
+      rack-test
+      sinatra (~> 1.4.0)
+      tilt (~> 1.3)
     tilt (1.4.1)
     vcr (2.9.3)
     webmock (1.20.4)
@@ -39,5 +50,6 @@ DEPENDENCIES
   rspec
   simple-rss
   sinatra
+  sinatra-contrib
   vcr
   webmock

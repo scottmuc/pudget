@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'sinatra'
+require "sinatra/reloader" if development?
 require_relative 'lib/services/weekly_time'
 
 get '/' do
