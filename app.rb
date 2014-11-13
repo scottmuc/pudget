@@ -9,7 +9,15 @@ end
 
 get '/timing' do
   url = params[:url]
-  @dto = { :feed_url => url, :time => WeeklyTime.for(url) }
+  @dto = {
+    :feed_url => url,
+    :success => true
+  }
+  begin
+    @dto[:time] = WeeklyTime.for(url)
+  rescue
+    @dto[:success] = false
+  end
   erb :search, :locals => { :dto => @dto }
 end
 

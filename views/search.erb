@@ -4,6 +4,7 @@
   <input type="submit" value="Calculate Weekly Pudget" />
 </form>
 
+<% if @dto[:success] %>
 <p class="result">
   <%= @dto[:time] %>
 </p>
@@ -12,3 +13,8 @@
 minutes per week
 </p>
 
+<% else %>
+<p>
+  looks like an error happened, are you sure you entered a valid url?
+</p>
+<% end %>

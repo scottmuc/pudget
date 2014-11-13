@@ -5,7 +5,8 @@ require_relative 'duration'
 
 class FeedStats
   def self.for(feed_url)
-    rss = FeedRetriever.fetch_rss(feed_url)
+    uri = URI.parse(feed_url)
+    rss = FeedRetriever.fetch_rss(uri)
     total_time = self.add_time(rss.items)
     average_time = total_time / rss.items.count
     release_cadence = self.release_cadence(rss.items)

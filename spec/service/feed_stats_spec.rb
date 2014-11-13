@@ -36,4 +36,8 @@ describe FeedStats do
       end
     end
   end
+
+  it "throws an INVALID_URL exception if the url is malformed" do
+    expect{ FeedStats.for("not a url") }.to raise_exception(URI::InvalidURIError)
+  end
 end
