@@ -25,7 +25,7 @@ class FeedStats
 
   def self.release_cadence(items)
     initial_date = DateTime.parse(items.last.pubDate.to_s)
-    (DateTime.now - initial_date) / items.count
+    ((DateTime.now - initial_date) / items.count).to_i
   end
 end
 

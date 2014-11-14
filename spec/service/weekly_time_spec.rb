@@ -21,3 +21,4 @@ describe WeeklyTime do
     expect(time).to eq(10)
   end
 end
+
