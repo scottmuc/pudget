@@ -23,10 +23,20 @@ describe FeedStats do
     expect(stats[:total_time]).to eq 70
   end
 
-  it "returns the release cadence in days" do
-    items = [ { :pubDate => SIX_DAYS_AGO, :itunes_duration => '00:10:00' }, ]
-    stub_rss({ :items => items})
-    expect(stats[:release_cadence]).to eq 6
+  describe "#release_cadence" do
+    it "returns the release cadence in days" do
+      items = [ { :pubDate => TODAY, :itunes_duration => '00:10:00' },
+                { :pubDate => SIX_DAYS_AGO, :itunes_duration => '01:00:00' }, ]
+      stub_rss({ :items => items})
+      expect(stats[:release_cadence]).to eq 3
+    end
+
+    it "handles episodes that are in ascending order" do
+      items = [ { :pubDate => SIX_DAYS_AGO, :itunes_duration => '00:10:00' },
+                { :pubDate => TODAY, :itunes_duration => '01:00:00' }, ]
+      stub_rss({ :items => items})
+      expect(stats[:release_cadence]).to eq 3
+    end
   end
 
   it "returns the title of the podcast" do

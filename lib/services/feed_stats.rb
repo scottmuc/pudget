@@ -6,7 +6,8 @@ class FeedStats
   def self.for(feed_url)
     rss = FeedRetriever.fetch_rss(feed_url)
     total_time = self.add_time(rss.items)
-    average_time = total_time / rss.items.count
+    number_of_episodes = number_of_episodes rss.items
+    average_time = total_time / number_of_episodes
     release_cadence = self.release_cadence(rss.items)
     {
       :average_length => average_time,
@@ -23,9 +24,21 @@ class FeedStats
     end
   end
 
+  def self.number_of_episodes(items)
+    items.count
+  end
+
+  def self.oldest_date(items)
+    first = DateTime.parse(items.first.pubDate.to_s)
+    last  = DateTime.parse(items.last.pubDate.to_s)
+    [first, last].min
+  end
+
   def self.release_cadence(items)
-    initial_date = DateTime.parse(items.last.pubDate.to_s)
-    ((DateTime.now - initial_date) / items.count).to_i
+    initial_date = oldest_date items
+    days = DateTime.now - initial_date
+    number_of_episodes = number_of_episodes items
+    (days / number_of_episodes).to_i
   end
 end
 
