@@ -3,6 +3,7 @@ require 'vcr_helper'
 require_relative '../../lib/services/feed_stats'
 
 describe FeedStats do
+
   context "stats for Startup podcast" do
     TWO_HOURS = 120
     TEN_MINUTES = 10
@@ -35,9 +36,5 @@ describe FeedStats do
         expect(stats[:average_length]).to be > TEN_MINUTES
       end
     end
-  end
-
-  it "throws an INVALID_URL exception if the url is malformed" do
-    expect{ FeedStats.for("not a url") }.to raise_exception(URI::InvalidURIError)
   end
 end
