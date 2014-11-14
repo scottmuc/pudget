@@ -33,6 +33,16 @@ class HoursMinutesSecondsParser
   end
 end
 
+class NullParser
+  def can_parse(string)
+    true
+  end
+
+  def parse(string)
+    Duration.new 0
+  end
+end
+
 class Duration
   attr_reader :minutes
 
@@ -40,6 +50,7 @@ class Duration
     SecondsParser.new,
     MinutesSecondsParser.new,
     HoursMinutesSecondsParser.new,
+    NullParser.new,
   ]
 
   def initialize(minutes)
@@ -47,6 +58,7 @@ class Duration
   end
 
   def self.parse(string, parsers=BUILT_IN_PARSERS)
+    return Duration.new(0) if string.nil?
     parser = parsers.find { |parser| parser.can_parse string }
     parser.parse string
   end
