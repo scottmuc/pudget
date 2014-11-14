@@ -10,4 +10,10 @@ describe Duration do
     duration = Duration.parse("59:00")
     expect( duration.minutes ).to eq(59)
   end
+
+  it "parses 120 as 2 minutes" do
+    duration = Duration.parse("120")
+    expect( duration.minutes ).to eq(2)
+  end
 end
+

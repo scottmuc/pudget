@@ -8,6 +8,9 @@ class Duration
   end
 
   def self.parse(string)
+    if string.split(':').count == 1
+      return Duration.new(string.to_i / 60)
+    end
     if string.split(':').count == 2
       string = '00:' + string
     end
