@@ -11,7 +11,7 @@ describe FeedStats do
   let(:stats) { FeedStats.for "some stubbed out stream" }
 
   def stub_rss(rss_hash)
-    expect(FeedRetriever).to receive(:fetch_rss) {
+    expect(RSSRetriever).to receive(:fetch_rss) {
       Hashie::Mash.new(rss_hash)
     }
   end

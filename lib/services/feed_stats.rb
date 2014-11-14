@@ -1,10 +1,10 @@
 require 'date'
-require_relative 'feed_retriever'
+require_relative 'rss_retriever'
 require_relative 'duration'
 
 class FeedStats
   def self.for(feed_url)
-    rss = FeedRetriever.fetch_rss(feed_url)
+    rss = RSSRetriever.fetch_rss(feed_url)
     total_time = self.add_time(rss.items)
     number_of_episodes = number_of_episodes rss.items
     average_time = total_time / number_of_episodes
