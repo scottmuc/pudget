@@ -1,7 +1,9 @@
+require_relative '../../app/services/rss_retriever'
 require_relative '../../app/services/weekly_time'
 
 When(/^I lookup StartUp Podcast$/) do
-  @weekly_time = WeeklyTime.for "http://feeds.hearstartup.com/hearstartup"
+  rss = RSSRetriever.fetch_rss "http://feeds.hearstartup.com/hearstartup"
+  @weekly_time = WeeklyTime.for rss
 end
 
 Then(/^then the weekly committment time is displayed$/) do
