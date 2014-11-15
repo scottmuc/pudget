@@ -1,5 +1,5 @@
 require 'hashie/mash'
-require_relative '../../lib/services/opml_stats'
+require_relative '../../app/services/opml_stats'
 
 class FakeOutline
   attr_reader :attributes

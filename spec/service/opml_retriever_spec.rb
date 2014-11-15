@@ -1,5 +1,5 @@
 require 'vcr_helper'
-require_relative '../../lib/services/opml_retriever'
+require_relative '../../app/services/opml_retriever'
 
 describe OPMLRetriever do
   it "can fetch opml from the Interwebs" do

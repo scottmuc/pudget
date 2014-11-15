@@ -1,4 +1,4 @@
-require_relative '../../lib/services/string_parser'
+require_relative '../../app/services/string_parser'
 
 describe StringParser do
   describe "#can_parse" do

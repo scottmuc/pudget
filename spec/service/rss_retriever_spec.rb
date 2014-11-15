@@ -1,5 +1,5 @@
 require 'vcr_helper'
-require_relative '../../lib/services/rss_retriever'
+require_relative '../../app/services/rss_retriever'
 
 describe RSSRetriever do
   it "can fetch podcast xml from the Interwebs" do

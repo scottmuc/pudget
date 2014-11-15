@@ -1,4 +1,4 @@
-require_relative '../../lib/services/weekly_time'
+require_relative '../../app/services/weekly_time'
 
 When(/^I lookup StartUp Podcast$/) do
   @weekly_time = WeeklyTime.for "http://feeds.hearstartup.com/hearstartup"

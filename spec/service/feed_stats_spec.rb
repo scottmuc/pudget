@@ -1,6 +1,6 @@
 require 'date'
 require 'hashie/mash'
-require_relative '../../lib/services/feed_stats'
+require_relative '../../app/services/feed_stats'
 
 describe FeedStats do
   TODAY = DateTime.now.rfc822

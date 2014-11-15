@@ -1,5 +1,5 @@
-require_relative '../../lib/services/duration'
-require_relative '../../lib/services/string_parser'
+require_relative '../../app/services/duration'
+require_relative '../../app/services/string_parser'
 
 describe Duration do
   describe Duration::NullParser do

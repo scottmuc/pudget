@@ -1,4 +1,4 @@
-require_relative '../../lib/services/weekly_time'
+require_relative '../../app/services/weekly_time'
 
 describe WeeklyTime do
   def stub_feed_stats(stats)
