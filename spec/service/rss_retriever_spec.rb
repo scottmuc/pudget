@@ -1,3 +1,4 @@
+require 'vcr_helper'
 require_relative '../../lib/services/rss_retriever'
 
 describe RSSRetriever do

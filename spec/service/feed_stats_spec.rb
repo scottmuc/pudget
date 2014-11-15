@@ -1,6 +1,4 @@
 require 'date'
-require 'vcr'
-require 'vcr_helper'
 require 'hashie/mash'
 require_relative '../../lib/services/feed_stats'
 

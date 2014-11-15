@@ -1,3 +1,4 @@
+require 'vcr_helper'
 require_relative '../../lib/services/opml_retriever'
 
 describe OPMLRetriever do

@@ -7,6 +7,7 @@ gem 'simple-rss'
 gem 'opml-parser'
 
 group :test do
+  gem 'cucumber'
   gem 'rspec'
   gem 'vcr'
   gem 'webmock'
