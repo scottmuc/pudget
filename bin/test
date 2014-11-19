@@ -3,3 +3,4 @@
 set -e
 
 rspec --color --format documentation
+
