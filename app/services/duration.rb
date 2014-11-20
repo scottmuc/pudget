@@ -1,53 +1,55 @@
-require_relative 'string_parser'
-
 class Duration
-  attr_reader :minutes
+  class DefaultParser
+    def can_parse(string)
+      true
+    end
 
-  class NullParser < StringParser
-    def initialize
-      super( Proc.new { |_| true },
-             Proc.new { |_| Duration.new(0) })
+    def parse(string)
+      Duration.new 0
     end
   end
 
-  class HoursMinutesSecondsParser < StringParser
-    def initialize
-      super( Proc.new { |string| string.split(':').count == 3 },
-             Proc.new { |string|
-               midnight = Time.parse('00:00:00')
-               duration = Time.parse(string) - midnight
-               Duration.new(duration.to_i / 60)
-             }
-           )
+  class HoursMinutesSecondsParser
+    def can_parse(string)
+      string.split(':').count == 3
+    end
+
+    def parse(string)
+      midnight = Time.parse('00:00:00')
+      duration = Time.parse(string) - midnight
+      Duration.new(duration.to_i / 60)
     end
   end
 
-  class MinutesSecondsParser < StringParser
-    def initialize
-      super( Proc.new { |string| string.split(':').count == 2 },
-             Proc.new { |string|
-               minutes = string.split(':')[0].to_i
-               Duration.new(minutes)
-             }
-           )
+  class MinutesSecondsParser
+    def can_parse(string)
+      string.split(':').count == 2
+    end
+
+    def parse(string)
+      minutes = string.split(':')[0].to_i
+      Duration.new minutes
     end
   end
 
-  class SecondsParser < StringParser
-    def initialize
-      super( Proc.new { |string| string.split(':').count == 1 },
-             Proc.new { |string| Duration.new(string.to_i / 60) }
-           )
+  class SecondsParser
+    def can_parse(string)
+      string.split(':').count == 1
     end
 
+    def parse(string)
+      Duration.new(string.to_i / 60)
+    end
   end
 
   BUILT_IN_PARSERS = [
     SecondsParser.new,
     MinutesSecondsParser.new,
     HoursMinutesSecondsParser.new,
-    NullParser.new,
+    DefaultParser.new,
   ]
+
+  attr_reader :minutes
 
   def initialize(minutes)
     @minutes = minutes
