@@ -9,13 +9,14 @@ end
 
 get '/timing' do
   url = params[:url]
-  rss = RSSRetriever.fetch_rss url
   @dto = {
     :feed_url => url,
     :success => true
   }
   begin
-    @dto[:time] = WeeklyTime.for rss
+    rss = RSSRetriever.fetch_rss url
+    stats = FeedStats.for rss
+    @dto[:time] = WeeklyTime.for stats
   rescue
     @dto[:success] = false
   end
