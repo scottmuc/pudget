@@ -1,4 +1,4 @@
-require_relative '../../app/services/podcast'
+require_relative '../../app/domain/podcast'
 require_relative '../../app/services/weekly_time'
 
 When(/^I lookup StartUp Podcast$/) do

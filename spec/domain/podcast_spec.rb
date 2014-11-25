@@ -1,5 +1,5 @@
 require 'vcr_helper'
-require_relative '../../app/services/podcast'
+require_relative '../../app/domain/podcast'
 
 describe Podcast do
   it "can fetch podcast xml from the Interwebs" do

@@ -1,6 +1,6 @@
 require 'sinatra'
 require "sinatra/reloader" if development?
-require_relative 'services/podcast'
+require_relative 'domain/podcast'
 require_relative 'services/weekly_time'
 
 get '/' do
