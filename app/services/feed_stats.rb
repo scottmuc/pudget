@@ -2,6 +2,11 @@ require 'date'
 require_relative '../domain/duration'
 
 class FeedStats
+  def self.for_url(url)
+    self.for Podcast.fetch_rss(url)
+  end
+
+  private
   def self.for(rss)
     total_time = self.add_time(rss.items)
     number_of_episodes = number_of_episodes rss.items
@@ -15,7 +20,6 @@ class FeedStats
     }
   end
 
-  private
   def self.add_time(items)
     items.inject(0) do |sum, item|
       sum + Duration.parse(item.itunes_duration).minutes

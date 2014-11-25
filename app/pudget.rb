@@ -13,8 +13,7 @@ def get_stats(url)
   begin
     stats = StatsCache.for_podcast url
   rescue
-    podcast = Podcast.fetch_rss url
-    stats = FeedStats.for podcast
+    stats = FeedStats.for_url url
     StatsCache.save_stats(url, stats)
   end
   stats
@@ -28,7 +27,8 @@ get '/timing' do
   }
   begin
     @dto[:time] = WeeklyTime.for get_stats(url)
-  rescue
+  rescue Exception => e
+    p e
     @dto[:success] = false
   end
   erb :search, :locals => { :dto => @dto }

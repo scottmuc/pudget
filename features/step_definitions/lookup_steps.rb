@@ -8,8 +8,7 @@ Given(/^Serial Podcast is cached with a time of 20$/) do
 end
 
 When(/^I lookup StartUp Podcast$/) do
-  rss = Podcast.fetch_rss "http://feeds.hearstartup.com/hearstartup"
-  stats = FeedStats.for rss
+  stats = FeedStats.for_url "http://feeds.hearstartup.com/hearstartup"
   @weekly_time = WeeklyTime.for stats
 end
 

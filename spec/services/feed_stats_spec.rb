@@ -6,14 +6,17 @@ describe FeedStats do
   TODAY = DateTime.now.rfc822
   SIX_DAYS_AGO = (DateTime.now - 6).rfc822
 
-  def rss_double(rss_hash)
-    Hashie::Mash.new(rss_hash)
+  def stub_podcast(rss_hash)
+    allow(Podcast).to receive(:fetch_rss) do
+      Hashie::Mash.new(rss_hash)
+    end
   end
 
   it "returns the total length of time of all the episodes" do
     items = [ { :pubDate => TODAY, :itunes_duration => '00:10:00' },
               { :pubDate => TODAY, :itunes_duration => '01:00:00' }, ]
-    stats = FeedStats.for rss_double({ :items => items })
+    stub_podcast({ :items => items })
+    stats = FeedStats.for_url double
     expect(stats[:total_time]).to eq 70
   end
 
@@ -21,29 +24,33 @@ describe FeedStats do
     it "returns the release cadence in days" do
       items = [ { :pubDate => TODAY, :itunes_duration => '00:10:00' },
                 { :pubDate => SIX_DAYS_AGO, :itunes_duration => '01:00:00' }, ]
-      stats = FeedStats.for rss_double({ :items => items })
+      stub_podcast({ :items => items })
+      stats = FeedStats.for_url double
       expect(stats[:release_cadence]).to eq 3
     end
 
     it "handles episodes that are in ascending order" do
       items = [ { :pubDate => SIX_DAYS_AGO, :itunes_duration => '00:10:00' },
                 { :pubDate => TODAY, :itunes_duration => '01:00:00' }, ]
-      stats = FeedStats.for rss_double({ :items => items })
+      stub_podcast({ :items => items })
+      stats = FeedStats.for_url double
       expect(stats[:release_cadence]).to eq 3
     end
   end
 
   it "returns the title of the podcast" do
-    # TODO items need to be populate because 0 items causes problems
+    # TODO items need to be populated because 0 items causes problems
     items = [ { :pubDate => SIX_DAYS_AGO, :itunes_duration => '00:10:00' }, ]
-    stats = FeedStats.for rss_double({ :title => "podcast title", :items => items})
+    stub_podcast({ :title => "podcast title", :items => items})
+    stats = FeedStats.for_url double
     expect(stats[:podcast_name]).to eq "podcast title"
   end
 
   it "returns the average episode length" do
     items = [ { :pubDate => TODAY, :itunes_duration => '00:10:00' },
               { :pubDate => TODAY, :itunes_duration => '01:00:00' }, ]
-    stats = FeedStats.for rss_double({ :items => items })
+    stub_podcast({ :items => items })
+    stats = FeedStats.for_url double
     expect(stats[:average_length]).to eq 35
   end
 end
