@@ -1,10 +1,23 @@
 require 'sinatra'
 require "sinatra/reloader" if development?
 require_relative 'domain/podcast'
+require_relative 'services/stats_cache'
 require_relative 'services/weekly_time'
 
 get '/' do
   erb :index
+end
+
+def get_stats(url)
+  stats = nil
+  begin
+    stats = StatsCache.for_podcast url
+  rescue
+    podcast = Podcast.fetch_rss url
+    stats = FeedStats.for podcast
+    StatsCache.save_stats(url, stats)
+  end
+  stats
 end
 
 get '/timing' do
@@ -14,9 +27,7 @@ get '/timing' do
     :success => true
   }
   begin
-    podcast = Podcast.fetch_rss url
-    stats = FeedStats.for podcast
-    @dto[:time] = WeeklyTime.for stats
+    @dto[:time] = WeeklyTime.for get_stats(url)
   rescue
     @dto[:success] = false
   end
