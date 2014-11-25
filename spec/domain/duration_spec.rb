@@ -1,4 +1,4 @@
-require_relative '../../app/services/duration'
+require_relative '../../app/domain/duration'
 
 describe Duration do
   it "interacts with a parser to obtain a duration" do

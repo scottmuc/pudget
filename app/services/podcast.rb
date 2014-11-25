@@ -1,7 +1,7 @@
 require 'simple-rss'
 require 'open-uri'
 
-class RSSRetriever
+class Podcast
   def self.add_tag(tag)
     return if SimpleRSS.item_tags.include? tag
     SimpleRSS.item_tags << tag

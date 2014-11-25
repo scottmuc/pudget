@@ -1,5 +1,5 @@
 require 'date'
-require_relative 'duration'
+require_relative '../domain/duration'
 
 class FeedStats
   def self.for(rss)

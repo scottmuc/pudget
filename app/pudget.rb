@@ -1,6 +1,6 @@
 require 'sinatra'
 require "sinatra/reloader" if development?
-require_relative 'services/rss_retriever'
+require_relative 'services/podcast'
 require_relative 'services/weekly_time'
 
 get '/' do
@@ -14,8 +14,8 @@ get '/timing' do
     :success => true
   }
   begin
-    rss = RSSRetriever.fetch_rss url
-    stats = FeedStats.for rss
+    podcast = Podcast.fetch_rss url
+    stats = FeedStats.for podcast
     @dto[:time] = WeeklyTime.for stats
   rescue
     @dto[:success] = false
