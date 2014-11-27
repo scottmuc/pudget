@@ -1,7 +1,6 @@
 require 'sinatra'
 require "sinatra/reloader" if development?
 require_relative 'domain/podcast'
-require_relative 'services/stats_cache'
 require_relative 'services/weekly_time'
 
 class Pudget < Sinatra::Base
@@ -16,23 +15,14 @@ class Pudget < Sinatra::Base
       :success => true
     }
     begin
-      @dto[:time] = WeeklyTime.for get_stats(url)
+      podcast = Podcast.fetch_rss url
+      p podcast
+      @dto[:time] = WeeklyTime.for podcast
     rescue Exception => e
       p e
       @dto[:success] = false
     end
     erb :search, :locals => { :dto => @dto }
-  end
-
-  def get_stats(url)
-    stats = nil
-    begin
-      stats = StatsCache.for_podcast url
-    rescue
-      stats = FeedStats.for_url url
-      StatsCache.save_stats(url, stats)
-    end
-    stats
   end
 end
 
