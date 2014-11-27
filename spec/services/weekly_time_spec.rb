@@ -1,3 +1,4 @@
+require_relative '../spec_helper'
 require_relative '../../app/services/weekly_time'
 
 describe WeeklyTime do

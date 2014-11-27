@@ -9,6 +9,7 @@ gem 'simple-rss'
 gem 'opml-parser'
 
 group :test do
+  gem "codeclimate-test-reporter", require: nil
   gem 'cucumber'
   gem 'rspec'
   gem 'vcr'

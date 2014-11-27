@@ -1,5 +1,7 @@
-require 'vcr_helper'
+require_relative '../spec_helper'
 require_relative '../../app/domain/podcasts'
+
+require 'vcr_helper'
 
 describe Podcasts do
   it "can fetch opml from the Interwebs" do
