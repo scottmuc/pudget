@@ -1,3 +1,4 @@
+require_relative '../spec_helper'
 require_relative '../../app/domain/duration'
 
 describe Duration do

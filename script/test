@@ -2,5 +2,5 @@
 
 set -e
 
-rspec --color --format documentation
+bundle exec rspec --color --format documentation
 
