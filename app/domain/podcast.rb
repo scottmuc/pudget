@@ -9,7 +9,22 @@ class Podcast
 
   def self.fetch_rss(url)
     self.add_tag :'itunes:duration'
-    SimpleRSS.parse open(URI.parse(url))
+    rss = SimpleRSS.parse open(URI.parse(url))
+    Podcast.new rss
+  end
+
+  attr_reader :title, :episodes
+
+  def initialize(simple_rss)
+    @title = simple_rss.title
+    @episodes = simple_rss.items.map do |item|
+      { :duration => item.itunes_duration,
+        :publish_date => item.pubDate }
+    end
+  end
+
+  def episode_count
+    @episodes.count
   end
 end
 

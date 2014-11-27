@@ -8,7 +8,7 @@ describe FeedStats do
 
   def stub_podcast(rss_hash)
     allow(Podcast).to receive(:fetch_rss) do
-      Hashie::Mash.new(rss_hash)
+      Podcast.new Hashie::Mash.new(rss_hash)
     end
   end
 
