@@ -1,4 +1,5 @@
 require 'vcr_helper'
+require 'hashie/mash'
 require_relative '../../app/domain/podcast'
 
 describe Podcast do
