@@ -9,9 +9,7 @@ end
 
 When(/^I lookup Scott Muc's podcast list$/) do
   podcasts = Podcasts.fetch_opml "http://scottmuc.com/podcasts_opml.xml"
-  @weekly_time = podcasts.all.reduce(0) do |sum, podcast|
-    sum = sum + WeeklyTime.for(podcast)
-  end
+  @weekly_time = WeeklyTime.for_many podcasts
 end
 
 Then(/^the weekly committment time is displayed$/) do

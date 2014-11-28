@@ -5,36 +5,41 @@ require_relative 'domain/podcasts'
 require_relative 'services/weekly_time'
 
 class Pudget < Sinatra::Base
-  configure {
+  configure do
     enable :logging
-  }
+  end
 
   get '/' do
     erb :index
   end
 
+  def handle_opml(url)
+    begin
+      podcasts = Podcasts.fetch_opml url
+      { :time => WeeklyTime.for_many(podcasts) }
+    rescue Exception => e
+      logger.error e.inspect
+      { :success => false }
+    end
+  end
+
+  def handle_rss(url)
+    begin
+      podcast = Podcast.fetch_rss url
+      { :time => WeeklyTime.for(podcast) }
+    rescue Exception => e
+      logger.error e.inspect
+      { :success => false }
+    end
+  end
+
   get '/timing' do
     url = params[:url]
-    isOpml = params[:isOpml]
-    logger.info "isOpml = #{isOpml}"
-
-    @dto = {
-      :feed_url => url,
-      :success => true
-    }
-    begin
-      if isOpml == "on"
-        podcasts = Podcasts.fetch_opml url
-        @dto[:time] = podcasts.all.reduce(0) do |sum, podcast|
-          sum = sum + WeeklyTime.for(podcast)
-        end
-      else
-        podcast = Podcast.fetch_rss url
-        @dto[:time] = WeeklyTime.for podcast
-      end
-    rescue Exception => e
-      p e
-      @dto[:success] = false
+    @dto = { :feed_url => url, :success => true }
+    if params[:isOpml] == "on"
+      @dto.merge!(handle_opml(url))
+    else
+      @dto.merge!(handle_rss(url))
     end
     erb :search, :locals => { :dto => @dto }
   end
