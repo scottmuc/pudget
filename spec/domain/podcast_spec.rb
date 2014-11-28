@@ -22,6 +22,13 @@ describe Podcast do
         Podcast.fetch_rss("not a url")
       }.to raise_exception(URI::InvalidURIError)
     end
+
+    it "returns memoized podcast instances" do
+      simple_rss = stub_simple_rss({ :title => "Podcast Title", :items => [] })
+      podcast = Podcast.new simple_rss
+      Podcast.memoize("a url", podcast)
+      expect( Podcast.fetch_rss "a url" ).to be podcast
+    end
   end
 
   TODAY = DateTime.now.rfc822

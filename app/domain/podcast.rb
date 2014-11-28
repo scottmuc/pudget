@@ -4,6 +4,8 @@ require 'open-uri'
 require_relative 'duration'
 
 class Podcast
+  @@CACHE = {}
+
   def self.add_tag(tag)
     return if SimpleRSS.item_tags.include? tag
     SimpleRSS.item_tags << tag
@@ -11,8 +13,15 @@ class Podcast
 
   def self.fetch_rss(url)
     self.add_tag :'itunes:duration'
-    rss = SimpleRSS.parse open(URI.parse(url))
-    Podcast.new rss
+    unless @@CACHE.has_key? url
+      rss = SimpleRSS.parse open(URI.parse(url))
+      self.memoize(url, Podcast.new(rss))
+    end
+    @@CACHE[url]
+  end
+
+  def self.memoize(url, podcast)
+    @@CACHE[url] = podcast
   end
 
   attr_reader :title, :episodes
