@@ -35,13 +35,13 @@ class Pudget < Sinatra::Base
 
   get '/timing' do
     url = params[:url]
-    @dto = { :feed_url => url, :success => true }
+    view_data = { :feed_url => url, :success => true }
     if params[:isOpml] == "on"
-      @dto.merge!(handle_opml(url))
+      view_data.merge!(handle_opml(url))
     else
-      @dto.merge!(handle_rss(url))
+      view_data.merge!(handle_rss(url))
     end
-    erb :search, :locals => { :dto => @dto }
+    erb :search, :locals => view_data
   end
 end
 
