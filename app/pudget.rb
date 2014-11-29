@@ -13,31 +13,35 @@ class Pudget < Sinatra::Base
     erb :index
   end
 
-  def handle_url(url, &block)
+  def handle_url(&block)
     begin
-      block.call url
+      block.call
     rescue Exception => e
-      logger.eror e.inspect
+      logger.error e.inspect
       { :success => false }
+    end
+  end
+
+  def get_timing(opml, url)
+    if opml == "on"
+      handle_url do
+        podcasts = Podcasts.fetch_opml url
+        { :time => WeeklyTime.for_many(podcasts) }
+      end
+    else
+      handle_url do
+        podcast = Podcast.fetch_rss url
+        { :time => WeeklyTime.for(podcast) }
+      end
     end
   end
 
   get '/timing' do
     url = params[:url]
+    opml = params[:isOpml]
     view_data = { :feed_url => url, :success => true }
-    if params[:isOpml] == "on"
-      result = handle_url(url) do |url|
-        podcasts = Podcasts.fetch_opml url
-        { :time => WeeklyTime.for_many(podcasts) }
-      end
-      view_data.merge!(result)
-    else
-      result = handle_url(url) do |url|
-        podcast = Podcast.fetch_rss url
-        { :time => WeeklyTime.for(podcast) }
-      end
-      view_data.merge!(result)
-    end
+    timing_info = get_timing(opml, url)
+    view_data.merge! timing_info
     erb :search, :locals => view_data
   end
 end
