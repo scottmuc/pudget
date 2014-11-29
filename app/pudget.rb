@@ -13,22 +13,11 @@ class Pudget < Sinatra::Base
     erb :index
   end
 
-  def handle_opml(url)
+  def handle_url(url, &block)
     begin
-      podcasts = Podcasts.fetch_opml url
-      { :time => WeeklyTime.for_many(podcasts) }
+      block.call url
     rescue Exception => e
-      logger.error e.inspect
-      { :success => false }
-    end
-  end
-
-  def handle_rss(url)
-    begin
-      podcast = Podcast.fetch_rss url
-      { :time => WeeklyTime.for(podcast) }
-    rescue Exception => e
-      logger.error e.inspect
+      logger.eror e.inspect
       { :success => false }
     end
   end
@@ -37,9 +26,17 @@ class Pudget < Sinatra::Base
     url = params[:url]
     view_data = { :feed_url => url, :success => true }
     if params[:isOpml] == "on"
-      view_data.merge!(handle_opml(url))
+      result = handle_url(url) do |url|
+        podcasts = Podcasts.fetch_opml url
+        { :time => WeeklyTime.for_many(podcasts) }
+      end
+      view_data.merge!(result)
     else
-      view_data.merge!(handle_rss(url))
+      result = handle_url(url) do |url|
+        podcast = Podcast.fetch_rss url
+        { :time => WeeklyTime.for(podcast) }
+      end
+      view_data.merge!(result)
     end
     erb :search, :locals => view_data
   end
