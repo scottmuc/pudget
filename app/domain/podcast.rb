@@ -60,7 +60,9 @@ class Podcast
   end
 
   def weekly_time
-    WeeklyTime.for self
+    weekly_cadence = 7 / release_cadence.to_f
+    average_episode_length = average_episode_play_time
+    (weekly_cadence * average_episode_length).to_i
   end
 end
 

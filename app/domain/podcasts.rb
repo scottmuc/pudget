@@ -19,7 +19,13 @@ class Podcasts
     @podcasts = outlines.map { |outline| outline_to_podcast outline }
   end
 
-  def from_podcasts(podcasts)
+  def self.from_podcasts(podcasts)
+    new_podcasts = Podcasts.new([])
+    new_podcasts.set_podcasts podcasts
+    new_podcasts
+  end
+
+  def set_podcasts(podcasts)
     @podcasts = podcasts
   end
 
