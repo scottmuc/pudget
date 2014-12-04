@@ -1,34 +1,9 @@
-.main-content {
-  width: 800px;
-  margin: 0 auto 0 auto;
-}
-
-h1,h3 {
-  text-align: center;
-}
-
-form {
-  width: 550px;
-  margin: 0 auto 0 auto;
-}
 
 form input[type=text] {
   width: 360px;
 }
 
-p {
-  text-align: center;
-}
-
-p.result {
-  text-align: center;
-  font-size: 10em;
-}
-
 .horse {
-  position: absolute;
-  left: 0;
-  top: 0;
   font-family: monospace;
   white-space: pre;
 }

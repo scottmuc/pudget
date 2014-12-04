@@ -26,12 +26,12 @@ class Pudget < Sinatra::Base
     if opml == "on"
       handle_url do
         podcasts = Podcasts.fetch_opml url
-        { :time => WeeklyTime.for_many(podcasts) }
+        { :podcasts => podcasts.all }
       end
     else
       handle_url do
         podcast = Podcast.fetch_rss url
-        { :time => WeeklyTime.for(podcast) }
+        { :podcasts => [podcast]}
       end
     end
   end

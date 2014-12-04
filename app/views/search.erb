@@ -1,19 +1,19 @@
 <form method="get" action="timing">
-  <label for="url">Enter url to podcast xml feed</label>
   <input id="url" name="url" type="text" value="<%= feed_url %>" />
   <input type="submit" value="Calculate Weekly Pudget" />
-  <br />
   <input type="checkbox" name="isOpml" />This url is OPML
 </form>
 
 <% if success %>
-<p class="result">
-  <%= time %>
-</p>
 
-<p>
-minutes per week
-</p>
+<ul>
+  <% podcasts.each do |podcast| %>
+    <li>
+      <h4><%= podcast.title %></h4>
+      <span><%= WeeklyTime.for(podcast) %> minutes</span>
+    </li>
+  <% end %>
+</ul>
 
 <% else %>
 <p>

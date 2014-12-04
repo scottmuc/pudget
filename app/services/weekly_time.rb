@@ -7,8 +7,8 @@ class WeeklyTime
   end
 
   def self.for_many(podcasts)
-    podcasts.all.reduce(0) do |sum, podcast|
-      sum = sum + WeeklyTime.for(podcast)
+    podcasts.all.map do |podcast|
+      WeeklyTime.for podcast
     end
   end
 end

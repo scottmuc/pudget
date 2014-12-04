@@ -16,7 +16,7 @@ describe WeeklyTime do
     all_podcasts = [ double(Podcast, :release_cadence => 7, :average_episode_play_time => 60),
                      double(Podcast, :release_cadence => 30, :average_episode_play_time => 45)]
     podcasts = double(Podcasts, :all => all_podcasts)
-    expect(WeeklyTime.for_many podcasts).to eq 70
+    expect(WeeklyTime.for_many podcasts).to eq [60, 10]
   end
 end
 
