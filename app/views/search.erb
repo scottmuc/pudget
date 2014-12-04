@@ -5,12 +5,13 @@
 </form>
 
 <% if success %>
+<h3>Total Weekly Time Committment is: <%= podcasts.weekly_time %> minutes</h3>
 
 <ul>
-  <% podcasts.each do |podcast| %>
+  <% podcasts.all.each do |podcast| %>
     <li>
       <h4><%= podcast.title %></h4>
-      <span><%= WeeklyTime.for(podcast) %> minutes</span>
+      <span><%= podcast.weekly_time %> minutes</span>
     </li>
   <% end %>
 </ul>

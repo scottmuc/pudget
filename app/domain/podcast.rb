@@ -58,5 +58,9 @@ class Podcast
   def average_episode_play_time
     total_play_time / episode_count
   end
+
+  def weekly_time
+    WeeklyTime.for self
+  end
 end
 

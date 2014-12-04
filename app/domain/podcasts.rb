@@ -19,12 +19,22 @@ class Podcasts
     @podcasts = outlines.map { |outline| outline_to_podcast outline }
   end
 
+  def from_podcasts(podcasts)
+    @podcasts = podcasts
+  end
+
   def count
     @podcasts.count
   end
 
   def all
     @podcasts
+  end
+
+  def weekly_time
+    all.reduce(0) do |sum, podcast|
+      sum = sum + podcast.weekly_time
+    end
   end
 end
 
