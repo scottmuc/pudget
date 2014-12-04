@@ -4,7 +4,7 @@ require_relative '../../app/services/weekly_time'
 
 When(/^I lookup StartUp Podcast$/) do
   podcast = Podcast.fetch_rss "http://feeds.hearstartup.com/hearstartup"
-  @weekly_time = WeeklyTime.for podcast
+  @weekly_time = [WeeklyTime.for(podcast)]
 end
 
 When(/^I lookup Scott Muc's podcast list$/) do
@@ -13,6 +13,6 @@ When(/^I lookup Scott Muc's podcast list$/) do
 end
 
 Then(/^the weekly committment time is displayed$/) do
-  expect( @weekly_time ).to be > 10
+  expect( @weekly_time.length ).to be > 0
 end
 
