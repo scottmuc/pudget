@@ -7,25 +7,16 @@ include OpmlParser
 class Podcasts
   def self.fetch_opml(url)
     outlines = OpmlParser.import open(URI.parse url)
-    Podcasts.new(outlines.drop 1)
+    podcasts = outlines.drop(1).map { |outline| outline_to_podcast outline }
+    Podcasts.new podcasts
   end
 
-  def outline_to_podcast(outline)
+  def self.outline_to_podcast(outline)
     url = outline.attributes.fetch(:xmlUrl)
     Podcast.fetch_rss url
   end
 
-  def initialize(outlines)
-    @podcasts = outlines.map { |outline| outline_to_podcast outline }
-  end
-
-  def self.from_podcasts(podcasts)
-    new_podcasts = Podcasts.new([])
-    new_podcasts.set_podcasts podcasts
-    new_podcasts
-  end
-
-  def set_podcasts(podcasts)
+  def initialize(podcasts)
     @podcasts = podcasts
   end
 
@@ -38,7 +29,7 @@ class Podcasts
   end
 
   def weekly_time
-    all.reduce(0) do |sum, podcast|
+    @podcasts.reduce(0) do |sum, podcast|
       sum = sum + podcast.weekly_time
     end
   end

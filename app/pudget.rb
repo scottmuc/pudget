@@ -30,7 +30,7 @@ class Pudget < Sinatra::Base
     else
       handle_url do
         podcast = Podcast.fetch_rss url
-        podcasts = Podcasts.from_podcasts [podcast]
+        podcasts = Podcasts.new [podcast]
         { :podcasts => podcasts}
       end
     end

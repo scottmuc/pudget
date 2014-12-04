@@ -15,10 +15,6 @@ describe Podcasts do
     end
   end
 
-  def stub_simple_rss(rss_hash)
-    Hashie::Mash.new(rss_hash)
-  end
-
   it "throws an INVALID_URL exception if the url is malformed" do
     expect {
       Podcasts.fetch_opml "some nonsense"
@@ -30,7 +26,7 @@ describe Podcasts do
       simple_rss = stub_simple_rss({ :title => "Podcast Title", :items => [] })
       podcast = Podcast.new simple_rss
       allow(podcast).to receive(:weekly_time) { 30 }
-      podcasts = Podcasts.from_podcasts [podcast, podcast]
+      podcasts = Podcasts.new [podcast, podcast]
       expect(podcasts.weekly_time).to eq 60
     end
   end

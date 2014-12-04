@@ -34,10 +34,6 @@ describe Podcast do
   TODAY = DateTime.now.rfc822
   SIX_DAYS_AGO = (DateTime.now - 6).rfc822
 
-  def stub_simple_rss(rss_hash)
-    Hashie::Mash.new(rss_hash)
-  end
-
   describe "#title" do
     it "maps to simples_rss title" do
       simple_rss = stub_simple_rss({ :title => "Podcast Title", :items => [] })
@@ -105,17 +101,16 @@ describe Podcast do
   end
 
   describe "#weekly_time" do
+    let(:simple_rss) { stub_simple_rss({ :title => "Podcast Title", :items => [] }) }
+    let(:podcast) { Podcast.new simple_rss }
+
     it "reports around 60 minutes for the average podcast" do
-      simple_rss = stub_simple_rss({ :title => "Podcast Title", :items => [] })
-      podcast = Podcast.new simple_rss
       allow(podcast).to receive(:release_cadence) { 7 }
       allow(podcast).to receive(:average_episode_play_time) { 60 }
       expect(podcast.weekly_time).to eq 60
     end
 
     it "reports little time for infrequently released podcasts" do
-      simple_rss = stub_simple_rss({ :title => "Podcast Title", :items => [] })
-      podcast = Podcast.new simple_rss
       allow(podcast).to receive(:release_cadence) { 30 }
       allow(podcast).to receive(:average_episode_play_time) { 45 }
       expect(podcast.weekly_time).to eq 10
