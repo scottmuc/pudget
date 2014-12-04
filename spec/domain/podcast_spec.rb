@@ -2,7 +2,6 @@ require_relative '../spec_helper'
 require_relative '../../app/domain/podcast'
 
 require 'vcr_helper'
-require 'hashie/mash'
 
 describe Podcast do
   context "loading from rss on the Interwebs" do

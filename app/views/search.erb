@@ -8,7 +8,7 @@
 <h3>Total Weekly Time Committment is: <%= podcasts.weekly_time %> minutes</h3>
 
 <ul>
-  <% podcasts.all.each do |podcast| %>
+  <% podcasts.each do |podcast| %>
     <li>
       <h4><%= podcast.title %></h4>
       <span><%= podcast.weekly_time %> minutes</span>

@@ -24,8 +24,8 @@ class Podcasts
     @podcasts.count
   end
 
-  def all
-    @podcasts
+  def each(&block)
+    @podcasts.each &block
   end
 
   def weekly_time
