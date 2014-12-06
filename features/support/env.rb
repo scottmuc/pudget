@@ -4,6 +4,6 @@ World(Rack::Test::Methods)
 require_relative '../../app/pudget'
 
 def app
-  Pudget.new
+  Pudget::App
 end
 
