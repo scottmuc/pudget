@@ -75,6 +75,7 @@ DEPENDENCIES
   cucumber
   hashie
   opml-parser
+  rack-test
   rspec
   simple-rss
   sinatra

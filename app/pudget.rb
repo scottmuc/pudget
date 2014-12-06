@@ -43,5 +43,9 @@ class Pudget < Sinatra::Base
                   :success => true }.merge! get_podcasts(opml, url)
     erb :search, :locals => view_data
   end
+
+  post '/pudget/create' do
+
+  end
 end
 
