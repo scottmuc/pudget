@@ -11,7 +11,7 @@ class Podcast
     SimpleRSS.item_tags << tag
   end
 
-  def self.fetch_rss(url)
+  def self.fetch_from_the_internet!(url)
     self.add_tag :'itunes:duration'
     unless @@CACHE.has_key? url
       rss = SimpleRSS.parse open(URI.parse(url))

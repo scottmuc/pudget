@@ -8,7 +8,7 @@ describe Podcast do
     it "can fetch podcast xml from the Interwebs" do
       VCR.use_cassette("podcast-startup") do
         startup_podcast_feed = 'http://feeds.hearstartup.com/hearstartup'
-        podcast = Podcast.fetch_rss startup_podcast_feed
+        podcast = Podcast.fetch_from_the_internet! startup_podcast_feed
         expect(podcast.title).to eq "StartUp Podcast"
         expect(podcast.episode_count).to be > 0
         expect(podcast.episodes.first[:duration]).not_to be_nil
@@ -18,7 +18,7 @@ describe Podcast do
 
     it "throws an INVALID_URL exception if the url is malformed" do
       expect {
-        Podcast.fetch_rss("not a url")
+        Podcast.fetch_from_the_internet! "not a url"
       }.to raise_exception(URI::InvalidURIError)
     end
 
@@ -26,7 +26,7 @@ describe Podcast do
       simple_rss = stub_simple_rss({ :title => "Podcast Title", :items => [] })
       podcast = Podcast.new simple_rss
       Podcast.memoize("a url", podcast)
-      expect( Podcast.fetch_rss "a url" ).to be podcast
+      expect( Podcast.fetch_from_the_internet! "a url" ).to be podcast
     end
   end
 

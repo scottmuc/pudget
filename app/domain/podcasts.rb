@@ -5,7 +5,7 @@ require_relative 'podcast'
 include OpmlParser
 
 class Podcasts
-  def self.fetch_opml(url)
+  def self.fetch_from_the_internet!(url)
     outlines = OpmlParser.import open(URI.parse url)
     podcasts = outlines.drop(1).map { |outline| outline_to_podcast outline }
     Podcasts.new podcasts
@@ -13,7 +13,7 @@ class Podcasts
 
   def self.outline_to_podcast(outline)
     url = outline.attributes.fetch(:xmlUrl)
-    Podcast.fetch_rss url
+    Podcast.fetch_from_the_internet! url
   end
 
   def initialize(podcasts)

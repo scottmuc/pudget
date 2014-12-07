@@ -17,12 +17,12 @@ module Pudget
     def self.get_podcasts(opml, url)
       if opml == "on"
         handle_url do
-          podcasts = Podcasts.fetch_opml url
+          podcasts = Podcasts.fetch_from_the_internet! url
           { :podcasts => podcasts }
         end
       else
         handle_url do
-          podcast = Podcast.fetch_rss url
+          podcast = Podcast.fetch_from_the_internet! url
           podcasts = Podcasts.new [podcast]
           { :podcasts => podcasts}
         end
