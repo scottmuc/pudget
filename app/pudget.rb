@@ -10,12 +10,12 @@ module Pudget
       erb :index
     end
 
-    get '/timing' do
+    post '/podcast/add' do
       url = params[:url]
-      opml = params[:isOpml]
-      api_result = Pudget::API.get_podcasts(opml, url)
-      view_data = { :feed_url => url, :success => true }.merge! api_result
-      erb :search, :locals => view_data
+      id = params[:id]
+      api_result = Pudget::API.get_podcasts("off", url)
+      @@SESSION[id] = api_result.fetch(:podcasts)
+      redirect '/pudget/make_this_random'
     end
 
     post '/pudget/create' do
@@ -25,7 +25,8 @@ module Pudget
 
     get '/pudget/:id' do
       id = params[:id]
-      erb :view, :locals => { :id => id }
+      podcasts = @@SESSION.fetch(id, [])
+      erb :view, :locals => { :id => id, :podcasts => podcasts }
     end
   end
 end
