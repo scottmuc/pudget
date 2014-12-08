@@ -1,6 +1,6 @@
 Feature: Create a pudget for yourself
 
-  Scenario: Calculate time committment for a list of feeds
+  Scenario: Creating a brand new pudget
     Given that I am on the homepage
     When I create a pudget
     Then I have a pudget

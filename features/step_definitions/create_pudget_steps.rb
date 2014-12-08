@@ -1,12 +1,12 @@
 Given(/^that I am on the homepage$/) do
-  get '/'
+  visit '/'
 end
 
 When(/^I create a pudget$/) do
-  post '/pudget/create'
+  find("#create").click
 end
 
 Then(/^I have a pudget$/) do
-  expect( last_response.ok? ).to be true
+  expect( page ).to have_content 'make_this_random'
 end
 
