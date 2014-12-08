@@ -10,7 +10,7 @@ module Pudget
       erb :index
     end
 
-    post '/podcast/add' do
+    post '/pudget/add/podcast' do
       url = params[:url]
       id = params[:id]
       api_result = Pudget::API.get_podcasts("off", url)
@@ -20,12 +20,13 @@ module Pudget
 
     post '/pudget/create' do
       # TODO put unique id creation here
+      @@SESSION['make_this_random'] = {}
       redirect '/pudget/make_this_random'
     end
 
     get '/pudget/:id' do
       id = params[:id]
-      podcasts = @@SESSION.fetch(id, [])
+      podcasts = @@SESSION.fetch id
       erb :view, :locals => { :id => id, :podcasts => podcasts }
     end
   end

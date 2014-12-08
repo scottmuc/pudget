@@ -1,6 +1,6 @@
-Your ID is:<%= id %>
+<a id="pudgetUrl" href="/view/<%= id %>">Your Pudget URL</a>
 
-<form method="post" action="/podcast/add">
+<form method="post" action="/pudget/add/podcast">
   <input id="id" name="id" type="hidden" value="<%= id %>" />
   <input id="url" name="url" type="text" value="" />
   <input type="submit" value="Add Podcast" />

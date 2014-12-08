@@ -7,6 +7,7 @@ When(/^I create a pudget$/) do
 end
 
 Then(/^I have a pudget$/) do
-  expect( page ).to have_content 'make_this_random'
+  pudget_url = find("#pudgetUrl")[:href]
+  expect( pudget_url ).to match 'make_this_random'
 end
 
