@@ -7,6 +7,7 @@ module Pudget
       begin
         block.call
       rescue Exception => e
+        p e
         { :success => false }
       end
     end
@@ -20,8 +21,7 @@ module Pudget
       else
         handle_url do
           podcast = Podcast.fetch_from_the_internet! url
-          podcasts = Podcasts.new [podcast]
-          { :podcasts => podcasts}
+          { :podcasts => [podcast]}
         end
       end
     end

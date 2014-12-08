@@ -14,14 +14,14 @@ module Pudget
       url = params[:url]
       id = params[:id]
       api_result = Pudget::API.get_podcasts("off", url)
-      @@SESSION[id] = api_result.fetch(:podcasts)
-      redirect '/pudget/make_this_random'
+      @@SESSION[id].concat api_result.fetch(:podcasts)
+      redirect "/pudget/#{id}"
     end
 
     post '/pudget/create' do
-      # TODO put unique id creation here
-      @@SESSION['make_this_random'] = {}
-      redirect '/pudget/make_this_random'
+      unique_id = SecureRandom::uuid
+      @@SESSION[unique_id] = []
+      redirect "/pudget/#{unique_id}"
     end
 
     get '/pudget/:id' do

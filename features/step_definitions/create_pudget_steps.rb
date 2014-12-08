@@ -6,8 +6,8 @@ When(/^I create a pudget$/) do
   find("#create").click
 end
 
-Then(/^I have a pudget$/) do
+Then(/^a new pudget is created$/) do
   pudget_url = find("#pudgetUrl")[:href]
-  expect( pudget_url ).to match 'make_this_random'
+  expect( pudget_url ).to match '/pudget/.+'
 end
 
