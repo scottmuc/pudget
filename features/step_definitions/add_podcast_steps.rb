@@ -6,16 +6,9 @@ Given(/^that I have a pudget$/) do
   }
 end
 
-When(/^I add Startup Podcast$/) do
+When(/^I add (.+) Podcast$/) do |name|
   within('form') do
-    fill_in 'url', :with => "http://feeds.hearstartup.com/hearstartup"
-    click_button 'Add Podcast'
-  end
-end
-
-When(/^I add EconTalk Podcast$/) do
-  within('form') do
-    fill_in 'url', :with => "http://files.libertyfund.org/econtalk/EconTalk.xml"
+    fill_in 'url', :with => podcast_urls.fetch("#{name} Podcast")
     click_button 'Add Podcast'
   end
 end

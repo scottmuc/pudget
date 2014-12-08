@@ -2,7 +2,7 @@ require_relative '../../app/domain/podcast'
 require_relative '../../app/domain/podcasts'
 
 When(/^I lookup StartUp Podcast$/) do
-  podcast = Podcast.fetch_from_the_internet! "http://feeds.hearstartup.com/hearstartup"
+  podcast = Podcast.fetch_from_the_internet! podcast_urls.fetch('Startup Podcast')
   @weekly_time = podcast.weekly_time
 end
 
