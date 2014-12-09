@@ -7,13 +7,20 @@ Given(/^that I have a pudget$/) do
 end
 
 When(/^I add (.+) Podcast$/) do |name|
-  within('form') do
+  within('#addPodcast') do
     fill_in 'url', :with => podcast_urls.fetch("#{name} Podcast")
     click_button 'Add Podcast'
   end
 end
 
-Then(/^both podcasts are displayed$/) do
-  expect( all("ul li").count ).to eq 2
+When(/^I import Scott Muc's OPML feed$/) do
+  within('#importOPML') do
+    fill_in 'url', :with => "http://scottmuc.com/podcasts_opml.xml"
+    click_button 'Import OPML'
+  end
+end
+
+Then(/^(\d+) podcasts are displayed$/) do |podcast_number|
+  expect( all("ul li").count ).to eq podcast_number.to_i
 end
 

@@ -1,9 +1,15 @@
 <a id="pudgetUrl" href="/pudget/<%= id %>">Your Pudget URL</a>
 
-<form method="post" action="/pudget/add/podcast">
+<form id="addPodcast" method="post" action="/pudget/add/podcast">
   <input id="id" name="id" type="hidden" value="<%= id %>" />
   <input id="url" name="url" type="text" value="" />
   <input type="submit" value="Add Podcast" />
+</form>
+
+<form id="importOPML" method="post" action="/pudget/import">
+  <input id="id" name="id" type="hidden" value="<%= id %>" />
+  <input id="url" name="url" type="text" value="" />
+  <input type="submit" value="Import OPML" />
 </form>
 
 <ul>

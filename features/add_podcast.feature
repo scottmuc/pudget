@@ -5,5 +5,11 @@ Feature: Add podcasts to your pudget
     Given that I have a pudget
     When I add Startup Podcast
     And I add EconTalk Podcast
-    Then both podcasts are displayed
+    Then 2 podcasts are displayed
+
+  @bulk-adding-podcasts
+  Scenario: Bulk adding podcasts
+    Given that I have a pudget
+    When I import Scott Muc's OPML feed
+    Then 4 podcasts are displayed
 

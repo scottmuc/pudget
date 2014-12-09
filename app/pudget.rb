@@ -18,6 +18,14 @@ module Pudget
       redirect "/pudget/#{id}"
     end
 
+    post '/pudget/import' do
+      url = params[:url]
+      id = params[:id]
+      api_result = Pudget::API.get_podcasts("on", url)
+      @@SESSION[id].concat api_result.fetch(:podcasts)
+      redirect "/pudget/#{id}"
+    end
+
     post '/pudget/create' do
       unique_id = SecureRandom::uuid
       @@SESSION[unique_id] = []
