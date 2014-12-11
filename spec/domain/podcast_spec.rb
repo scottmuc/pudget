@@ -11,8 +11,6 @@ describe Podcast do
         podcast = Podcast.fetch_from_the_internet! startup_podcast_feed
         expect(podcast.title).to eq "StartUp Podcast"
         expect(podcast.episode_count).to be > 0
-        expect(podcast.episodes.first[:duration]).not_to be_nil
-        expect(podcast.episodes.first[:publish_date]).not_to be_nil
       end
     end
 
@@ -24,7 +22,7 @@ describe Podcast do
 
     it "returns memoized podcast instances" do
       simple_rss = stub_simple_rss({ :title => "Podcast Title", :items => [] })
-      podcast = Podcast.new simple_rss
+      podcast = Podcast.create_from_simple_rss simple_rss
       Podcast.memoize("a url", podcast)
       expect( Podcast.fetch_from_the_internet! "a url" ).to be podcast
     end
@@ -36,7 +34,7 @@ describe Podcast do
   describe "#title" do
     it "maps to simples_rss title" do
       simple_rss = stub_simple_rss({ :title => "Podcast Title", :items => [] })
-      podcast = Podcast.new simple_rss
+      podcast = Podcast.create_from_simple_rss simple_rss
       expect(podcast.title).to eq "Podcast Title"
     end
   end
@@ -46,7 +44,7 @@ describe Podcast do
       items = [ { :pubDate => TODAY, :itunes_duration => "" },
                 { :pubDate => TODAY, :itunes_duration => "" }, ]
       simple_rss = stub_simple_rss({ :title => "Podcast Title", :items => items })
-      podcast = Podcast.new simple_rss
+      podcast = Podcast.create_from_simple_rss simple_rss
       expect(podcast.episode_count).to eq 2
     end
   end
@@ -56,7 +54,7 @@ describe Podcast do
       items = [ { :pubDate => TODAY, :itunes_duration => "" },
                 { :pubDate => SIX_DAYS_AGO, :itunes_duration => "" }, ]
       simple_rss = stub_simple_rss({ :title => "Podcast Title", :items => items })
-      podcast = Podcast.new simple_rss
+      podcast = Podcast.create_from_simple_rss simple_rss
       expect(podcast.age).to eq 6
     end
 
@@ -64,7 +62,7 @@ describe Podcast do
       items = [ { :pubDate => SIX_DAYS_AGO, :itunes_duration => "" },
                 { :pubDate => TODAY, :itunes_duration => "" }, ]
       simple_rss = stub_simple_rss({ :title => "Podcast Title", :items => items })
-      podcast = Podcast.new simple_rss
+      podcast = Podcast.create_from_simple_rss simple_rss
       expect(podcast.age).to eq 6
     end
   end
@@ -74,7 +72,7 @@ describe Podcast do
       items = [ { :pubDate => SIX_DAYS_AGO, :itunes_duration => "" },
                 { :pubDate => TODAY, :itunes_duration => "" }, ]
       simple_rss = stub_simple_rss({ :title => "Podcast Title", :items => items })
-      podcast = Podcast.new simple_rss
+      podcast = Podcast.create_from_simple_rss simple_rss
       expect(podcast.release_cadence).to eq 3
     end
   end
@@ -84,7 +82,7 @@ describe Podcast do
       items = [ { :pubDate => TODAY, :itunes_duration => '00:10:00' },
                 { :pubDate => TODAY, :itunes_duration => '01:00:00' }, ]
       simple_rss = stub_simple_rss({ :title => "Podcast Title", :items => items })
-      podcast = Podcast.new simple_rss
+      podcast = Podcast.create_from_simple_rss simple_rss
       expect(podcast.total_play_time).to eq 70
     end
   end
@@ -94,14 +92,14 @@ describe Podcast do
       items = [ { :pubDate => TODAY, :itunes_duration => '00:10:00' },
                 { :pubDate => TODAY, :itunes_duration => '01:00:00' }, ]
       simple_rss = stub_simple_rss({ :title => "Podcast Title", :items => items })
-      podcast = Podcast.new simple_rss
+      podcast = Podcast.create_from_simple_rss simple_rss
       expect(podcast.average_episode_play_time).to eq 35
     end
   end
 
   describe "#weekly_time" do
     let(:simple_rss) { stub_simple_rss({ :title => "Podcast Title", :items => [] }) }
-    let(:podcast) { Podcast.new simple_rss }
+    let(:podcast) { Podcast.create_from_simple_rss simple_rss }
 
     it "reports around 60 minutes for the average podcast" do
       allow(podcast).to receive(:release_cadence) { 7 }

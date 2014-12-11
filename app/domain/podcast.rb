@@ -15,7 +15,7 @@ class Podcast
     self.add_tag :'itunes:duration'
     unless @@CACHE.has_key? url
       rss = SimpleRSS.parse open(URI.parse(url))
-      self.memoize(url, Podcast.new(rss))
+      self.memoize(url, self.create_from_simple_rss(rss))
     end
     @@CACHE[url]
   end
@@ -24,15 +24,21 @@ class Podcast
     @@CACHE[url] = podcast
   end
 
-  attr_reader :title, :episodes
-
-  def initialize(simple_rss)
-    @title = simple_rss.title
-    @episodes = simple_rss.items.map do |item|
+  def self.create_from_simple_rss(simple_rss)
+    title = simple_rss.title
+    episodes = simple_rss.items.map do |item|
       { :duration => Duration.parse(item.itunes_duration),
         :publish_date => DateTime.parse(item.pubDate.to_s)
       }
     end
+    Podcast.new(title, episodes)
+  end
+
+  attr_reader :title
+
+  def initialize(title, episodes)
+    @title = title
+    @episodes = episodes
   end
 
   def episode_count
@@ -41,7 +47,7 @@ class Podcast
 
   def age
     today = DateTime.now
-    oldest = episodes.min_by { |episode| episode[:publish_date] }
+    oldest = @episodes.min_by { |episode| episode[:publish_date] }
     (today - oldest[:publish_date]).to_i
   end
 
@@ -50,7 +56,7 @@ class Podcast
   end
 
   def total_play_time
-    episodes.inject(0) do |sum, episode|
+    @episodes.inject(0) do |sum, episode|
       sum + episode[:duration].minutes
     end
   end
