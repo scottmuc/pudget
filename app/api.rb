@@ -13,8 +13,8 @@ module Pudget
       end
     end
 
-    def self.get_podcasts(opml, url)
-      if opml == "on"
+    def self.get_podcasts(url, opml)
+      if opml
         handle_url do
           podcasts = Podcasts.fetch_from_the_internet! url
           sliced = podcasts.map do |podcast|

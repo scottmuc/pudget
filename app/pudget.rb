@@ -10,20 +10,20 @@ module Pudget
       erb :index
     end
 
-    post '/pudget/add/podcast' do
+    def load_podcasts(params, importOpml = false)
       url = params[:url]
       id = params[:id]
-      api_result = Pudget::API.get_podcasts("off", url)
+      api_result = Pudget::API.get_podcasts(url, importOpml)
       @@SESSION[id].concat api_result.fetch(:podcasts)
       redirect "/pudget/#{id}"
     end
 
+    post '/pudget/add/podcast' do
+      load_podcasts(params)
+    end
+
     post '/pudget/import' do
-      url = params[:url]
-      id = params[:id]
-      api_result = Pudget::API.get_podcasts("on", url)
-      @@SESSION[id].concat api_result.fetch(:podcasts)
-      redirect "/pudget/#{id}"
+      load_podcasts(params, importOpml: true)
     end
 
     post '/pudget/create' do
