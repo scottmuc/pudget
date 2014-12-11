@@ -21,6 +21,6 @@ When(/^I import Scott Muc's OPML feed$/) do
 end
 
 Then(/^(\d+) podcasts are displayed$/) do |podcast_number|
-  expect( all("ul li").count ).to eq podcast_number.to_i
+  expect( all(".podcast").count ).to eq podcast_number.to_i
 end
 

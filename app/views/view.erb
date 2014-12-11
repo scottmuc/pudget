@@ -14,7 +14,7 @@
 
 <ul>
   <% podcasts.each do |podcast| %>
-    <li><%= podcast.title %> -
+    <li class="podcast"><%= podcast.title %> -
         <%= podcast.weekly_time %> minutes
       <ul>
         <% podcast.episodes.each do |episode| %>
