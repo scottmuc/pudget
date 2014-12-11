@@ -1,5 +1,6 @@
 require_relative 'domain/podcast'
 require_relative 'domain/podcasts'
+require_relative 'domain/podcast_slicer'
 
 module Pudget
   class API
@@ -16,12 +17,16 @@ module Pudget
       if opml == "on"
         handle_url do
           podcasts = Podcasts.fetch_from_the_internet! url
-          { :podcasts => podcasts }
+          sliced = podcasts.map do |podcast|
+            PodcastSlicer.slice podcast
+          end
+          { :podcasts => sliced }
         end
       else
         handle_url do
           podcast = Podcast.fetch_from_the_internet! url
-          { :podcasts => [podcast]}
+          sliced =  PodcastSlicer.slice podcast
+          { :podcasts => [sliced] }
         end
       end
     end
