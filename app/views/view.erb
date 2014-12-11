@@ -14,9 +14,16 @@
 
 <ul>
   <% podcasts.each do |podcast| %>
-    <li>
-      <h4><%= podcast.title %></h4>
-      <span><%= podcast.weekly_time %> minutes</span>
+    <li><%= podcast.title %> -
+        <%= podcast.weekly_time %> minutes
+      <ul>
+        <% podcast.episodes.each do |episode| %>
+          <li><%= episode[:publish_date] %>:
+              <%= episode[:title] %> -
+              <%= episode[:duration].minutes %> minutes
+          </li>
+        <% end %>
+      </ul>
     </li>
   <% end %>
 </ul>

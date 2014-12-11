@@ -28,13 +28,14 @@ class Podcast
     title = simple_rss.title
     episodes = simple_rss.items.map do |item|
       { :duration => Duration.parse(item.itunes_duration),
+        :title => item.title,
         :publish_date => DateTime.parse(item.pubDate.to_s)
       }
     end
     Podcast.new(title, episodes)
   end
 
-  attr_reader :title
+  attr_reader :title, :episodes
 
   def initialize(title, episodes)
     @title = title
