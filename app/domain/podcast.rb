@@ -42,12 +42,14 @@ class Podcast
   end
 
   def age
+    return 0 if episode_count == 0
     today = DateTime.now
     oldest = @episodes.min_by { |episode| episode[:publish_date] }
     (today - oldest[:publish_date]).to_i
   end
 
   def release_cadence
+    return 0 if episode_count == 0
     age / episode_count
   end
 
@@ -58,10 +60,12 @@ class Podcast
   end
 
   def average_episode_play_time
+    return 0 if episode_count == 0
     total_play_time / episode_count
   end
 
   def weekly_time
+    return 0 if release_cadence == 0
     weekly_cadence = 7 / release_cadence.to_f
     average_episode_length = average_episode_play_time
     (weekly_cadence * average_episode_length).to_i

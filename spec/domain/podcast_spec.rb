@@ -46,6 +46,30 @@ describe Podcast do
     end
   end
 
+  context "when there are no episodes" do
+    let(:podcast) { Podcast.new("Title", []) }
+
+    it "has an age of 0" do
+      expect(podcast.age).to eq 0
+    end
+
+    it "has a release_cadence of 0" do
+      expect(podcast.release_cadence).to eq 0
+    end
+
+    it "has a total_play_time of 0" do
+      expect(podcast.total_play_time).to eq 0
+    end
+
+    it "has an average_episode_play_time of 0" do
+      expect(podcast.average_episode_play_time).to eq 0
+    end
+
+    it "has a weekly_time of 0" do
+      expect(podcast.weekly_time).to eq 0
+    end
+  end
+
   describe "#age" do
     it "calculates the age of the podcast in days" do
       items = [ { :pubDate => TODAY, :itunes_duration => "" },
