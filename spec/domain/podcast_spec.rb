@@ -20,10 +20,9 @@ describe Podcast do
       }.to raise_exception(URI::InvalidURIError)
     end
 
-    it "returns memoized podcast instances" do
-      simple_rss = stub_simple_rss({ :title => "Podcast Title", :items => [] })
-      podcast = Podcast.create_from_simple_rss simple_rss
-      Podcast.memoize("a url", podcast)
+    it "returns cached podcast instances" do
+      podcast = Podcast.new("Title", [])
+      Cache.store("a url", podcast)
       expect( Podcast.fetch_from_the_internet! "a url" ).to be podcast
     end
   end
@@ -31,15 +30,13 @@ describe Podcast do
   TODAY = DateTime.now.rfc822
   SIX_DAYS_AGO = (DateTime.now - 6).rfc822
 
-  describe "#title" do
+  describe "#create_from_simple_rss" do
     it "maps to simples_rss title" do
       simple_rss = stub_simple_rss({ :title => "Podcast Title", :items => [] })
       podcast = Podcast.create_from_simple_rss simple_rss
       expect(podcast.title).to eq "Podcast Title"
     end
-  end
 
-  describe "#episodes" do
     it "maps to simple_rss items" do
       items = [ { :pubDate => TODAY, :itunes_duration => "" },
                 { :pubDate => TODAY, :itunes_duration => "" }, ]

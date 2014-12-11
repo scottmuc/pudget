@@ -2,10 +2,9 @@ require 'simple-rss'
 require 'open-uri'
 
 require_relative 'duration'
+require_relative '../../lib/cache'
 
 class Podcast
-  @@CACHE = {}
-
   def self.add_tag(tag)
     return if SimpleRSS.item_tags.include? tag
     SimpleRSS.item_tags << tag
@@ -13,23 +12,19 @@ class Podcast
 
   def self.fetch_from_the_internet!(url)
     self.add_tag :'itunes:duration'
-    unless @@CACHE.has_key? url
+    unless Cache.has_key? url
       rss = SimpleRSS.parse open(URI.parse(url))
-      self.memoize(url, self.create_from_simple_rss(rss))
+      Cache.store(url, self.create_from_simple_rss(rss))
     end
-    @@CACHE[url]
-  end
-
-  def self.memoize(url, podcast)
-    @@CACHE[url] = podcast
+    Cache.fetch url
   end
 
   def self.create_from_simple_rss(simple_rss)
     title = simple_rss.title
-    episodes = simple_rss.items.map do |item|
-      { :duration => Duration.parse(item.itunes_duration),
-        :title => item.title,
-        :publish_date => DateTime.parse(item.pubDate.to_s)
+    episodes = simple_rss.items.map do |rss_item|
+      { :duration => Duration.parse(rss_item.itunes_duration),
+        :title => rss_item.title,
+        :publish_date => DateTime.parse(rss_item.pubDate.to_s)
       }
     end
     Podcast.new(title, episodes)
