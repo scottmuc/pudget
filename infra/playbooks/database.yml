@@ -1,0 +1,74 @@
+---
+- hosts: all
+  vars:
+    db_name: "pudget"
+    db_username: "pudget"
+    db_password: "pudget"
+
+  tasks:
+  - name: Add postgresql apt repo
+    sudo: yes
+    apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main'
+                    state=present
+
+  - name: Add postgresql apt key
+    sudo: yes
+    apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc
+             state=present
+
+  - name: Update apt-get
+    sudo: yes
+    apt: update_cache=yes
+
+  - name: Install pkgs
+    sudo: yes
+    apt: pkg={{ item }} state=present
+    with_items:
+      - postgresql
+      - postgresql-contrib
+      - libpq-dev
+      - python-psycopg2
+
+  - name: Update pg_hba.conf
+    sudo: yes
+    copy: src=files/pg_hba.conf
+          dest=/etc/postgresql/9.3/main/pg_hba.conf
+          owner=postgres
+          group=postgres
+          mode=0640
+    notify:
+      - Reload PostgreSQL
+
+  - name: Update pg_hba.conf
+    sudo: yes
+    copy: src=files/postgresql.conf
+          dest=/etc/postgresql/9.3/main/postgresql.conf
+          owner=postgres
+          group=postgres
+          mode=0640
+    notify:
+      - Reload PostgreSQL
+
+  - name: Setup db
+    sudo: yes
+    sudo_user: postgres
+    postgresql_db: name={{ db_name }}
+                   encoding="UTF8" 
+                   lc_collate="en_US.UTF-8"
+                   lc_ctype="en_US.UTF-8"
+                   template="template0"
+
+  - name: Setup db user
+    sudo: yes
+    sudo_user: postgres
+    postgresql_user: db={{ db_name }}
+                     name={{ db_username }}
+                     password={{ db_password }}
+
+  handlers:
+  - name: Reload PostgreSQL
+    sudo: yes
+    service: name=postgresql
+             state=restarted
+             enabled=yes
+

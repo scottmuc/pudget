@@ -7,3 +7,9 @@
 # Ignore bundler config.
 /.bundle
 
+# Using vagrant to spin up a db for development
+.vagrant/
+
+# Using virtualenv for a python sandbox to have ansible isntalled in
+.virtualenv/
+
