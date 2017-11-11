@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.4'
+ruby '2.4.2'
 
 gem 'sinatra'
 gem 'sinatra-contrib'
